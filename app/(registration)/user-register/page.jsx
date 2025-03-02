@@ -3,7 +3,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className='p-0 m-0 min-w-screen flex flex-col sm:flex-row justify-center min-h-screen items-center '>
+    <div className='p-0 m-0 min-w-screen flex flex-col sm:flex-row justify-center items-center '>
       {/* here comes the left side of the registration  */}
       <div className='bg-blue-500 w-full hidden md:inline  '>
         left side
