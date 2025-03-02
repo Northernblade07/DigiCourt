@@ -23,13 +23,13 @@ export async function POST(request,response) {
             })
         }
 
-        const hashedPassword = bcrypt.hash(password,10);
+        const hashedPassword =await bcrypt.hash(password,10);
 
    
         const user = await User.create({
             username,
             email,
-            password,
+            password:hashedPassword,
         })
 
         return NextResponse.json({
