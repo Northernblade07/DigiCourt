@@ -57,11 +57,11 @@ const RegisterForm = ({userType}) => {
           <label className='text-white font-semibold text-3xl' htmlFor="">confirm password</label>
           <Input value={confirmpassword} onChange={(e)=>setconfirmpassword(e.target.value)} className="p-3 m-1 w-100 " type={"password"} placeholder="confirm password"/>
             {error&&(<p>{error}</p>)}
-{/* { userType==="Judge" && <> */}
+{ userType==="Judge" && <>
           <label className='text-white font-semibold text-3xl '  htmlFor="">secretCode</label>
           <Input value={secretCode} onChange={(e)=>setSecretCode(e.target.value)} type={"text"} className="p-3 m-1 w-fit" placeholder="enter secretCode"/>
-{/* </> */}
-{/* } */}
+</>
+}
 
 <button type="submit" >Register now </button>
       </form>
