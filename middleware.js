@@ -9,11 +9,11 @@ export async function middleware(req) {
 
   const url = req.nextUrl.pathname;
 
-  if (url.startsWith("/judge") && token.role !== "judge") {
+  if (url.startsWith("/judge") && token.role !== "Judge") {
     return Response.redirect(new URL("/unauthorized", req.url));
   }
 
-  if (url.startsWith("/clerk") && token.role !== "clerk") {
+  if (url.startsWith("/clerk") && token.role !== "Clerk") {
     return Response.redirect(new URL("/unauthorized", req.url));
   }
 }

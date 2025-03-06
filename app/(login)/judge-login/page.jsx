@@ -30,7 +30,7 @@ import Link from "next/link";
 
   return (
     <div className="max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Login</h1>
+      <h1 className="text-2xl font-bold mb-4">Login as Judge</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
    
