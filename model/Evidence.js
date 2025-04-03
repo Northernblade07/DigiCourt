@@ -23,6 +23,10 @@ const EvidenceSchema = new mongoose.Schema({
   extractedText: {
     type: String, // For extracted text from PDFs or transcriptions
   },
+  isVerified: {
+    type: Boolean, // Evidence verification status
+    default: false,
+  },
   uploadedAt: {
     type: Date,
     default: Date.now,

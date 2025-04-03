@@ -14,4 +14,4 @@ const ClerkSchema = new mongoose.Schema({
 
 const Clerk = mongoose.models.Clerk || mongoose.model("Clerk",ClerkSchema);
 
-export default Clerk
+export default Clerk;

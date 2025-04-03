@@ -13,7 +13,7 @@ const Navbar = () => {
    }
   }
    const {data:session} = useSession();
-  console.log(session?.user);
+//   console.log(session?.user);
   return (
     <div className=' m-0 p-0 h-[5vh] w-full flex justify-between items-center'>
       Navbar
@@ -21,7 +21,7 @@ const Navbar = () => {
        <Link href={'/'}>
        <li>home</li>
        </Link> 
-       {session?.user?.role === "Judge" &&
+       {session?.user?.role ==="Judge" &&
        <Link href={`judge/${session?.user?.id}`}> <li>judge dashboard</li> </Link> 
        }
 
