@@ -1,8 +1,12 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGavel, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useSession } from "next-auth/react";
 
 const Navbar = ({ searchTerm, setSearchTerm }) => {
+
+  const {data:session} = useSession();
+  console.log(session)
   return (
     <nav className="bg-white shadow-md h-16 fixed w-full z-50 flex items-center justify-between px-6">
       {/* Title */}

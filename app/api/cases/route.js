@@ -8,6 +8,24 @@ import { uploadFileToStorage } from "@/lib/fileupload";
 
 export const runtime = "nodejs";
 
+
+export async function GET(req) {
+  try {
+      await connectDb();
+
+      const cases = await Case.find({});
+    
+      return NextResponse.json(cases,{
+          status:200
+      })
+  } catch (error) {
+      return NextResponse.json({message:"error fetching cases"},{
+          status:500
+      })
+  }
+}
+
+
 export async function POST(req) {
   try {
     await connectDb();

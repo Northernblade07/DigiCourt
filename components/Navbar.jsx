@@ -16,7 +16,7 @@ const Navbar = () => {
 //   console.log(session?.user);
   return (
     <div className=' m-0 p-0 h-[5vh] w-full flex justify-between items-center'>
-      Navbar
+
       <ul className='flex gap-5 '>
        <Link href={'/'}>
        <li>home</li>

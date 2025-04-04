@@ -20,13 +20,15 @@ import Link from "next/link";
       redirect: false,
     });
     console.log(result)
-    if (result?.error) {
-    //   showNotification(result.error, "error");
+    if (!result || !result.okk) {
+      // You can log the actual error or show it to the user
+      console.error("Login failed:", result?.error);
+      router.push('/error'); // or show a toast instead
     } else {
-    //   showNotification("Login successful!", "success");
-      router.push("/");
+      router.push("/clerk/1"); // or wherever you want
     }
   };
+
 
   return (
     <div className="max-w-md mx-auto">
@@ -59,12 +61,14 @@ import Link from "next/link";
             className="w-full px-3 py-2 border rounded"
           />
         </div>
-        <button
+      {/* <Link href={'/clerk/1'}> */}
+       <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-        >
+          >
           Login
         </button>
+          {/* </Link> */}
         <p className="text-center mt-4">
           Don&apos;t have an account?{" "}
           <Link href="/register" className="text-blue-500 hover:text-blue-600">

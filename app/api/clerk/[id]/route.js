@@ -7,7 +7,7 @@ export async function GET(req,{params}){
         await connectDb();
         
         const {id} = await params;
-        if (!params?.id) {
+        if (!id) {
             return NextResponse.json(
               { message: "Clerk ID is required" },
               { status: 400 }
@@ -15,7 +15,7 @@ export async function GET(req,{params}){
           }
       
           // Check if ID is a valid MongoDB ObjectId
-          if (!params.id.match(/^[0-9a-fA-F]{24}$/)) {
+          if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             return NextResponse.json(
               { message: "Invalid Clerk ID format" },
               { status: 400 }

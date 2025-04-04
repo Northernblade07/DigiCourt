@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const RegisterForm = ({userType}) => {
  const router = useRouter()
@@ -64,6 +65,14 @@ const RegisterForm = ({userType}) => {
 }
 
 <button type="submit" >Register now </button>
+
+ <p className='text-white'>
+already have an account
+
+</p>
+<Link href={"/user-login"}>
+<button>login here</button>
+</Link>
       </form>
     </section>
   )
