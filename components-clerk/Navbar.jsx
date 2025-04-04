@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBalanceScale, faBell, faSearch } from "@fortawesome/free-solid-svg-icons";
 
-const Navbar =({
+const Navbar =({clerk,
   searchTerm,
   setSearchTerm,
   showNotifications,
@@ -60,7 +60,7 @@ const Navbar =({
               alt="Clerk Profile"
               className="w-8 h-8 rounded-full object-cover"
             />
-            <span>Sarah Anderson</span>
+            <span>{clerk.username}</span>
             <i className="fas fa-chevron-down text-sm"></i>
           </button>
         </div>

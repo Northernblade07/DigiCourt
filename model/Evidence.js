@@ -9,7 +9,7 @@ const EvidenceSchema = new mongoose.Schema({
   uploadedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Clerk", // Only Clerks can upload evidence
-    required: true,
+    // required: true,
   },
   fileType: {
     type: String,

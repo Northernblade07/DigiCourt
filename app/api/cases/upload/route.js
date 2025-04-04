@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
-import Case from "@/models/Case";
-import Evidence from "@/models/Evidence";
+import Case from "@/model/Case";
+import Evidence from "@/model/Evidence";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { uploadFileToStorage } from "@/lib/fileUpload"; // Cloud upload helper
 import { extractTextFromPDF } from "@/lib/pdfExtractor"; // PDF text extraction utility
 
 // ✅ Only allow POST requests
-export async function POST(req: NextRequest) {
+export async function POST(req) {
   try {
     await connectDB(); // Connect to MongoDB
 
@@ -18,10 +18,10 @@ export async function POST(req: NextRequest) {
     }
 
     const formData = await req.formData();
-    const title = formData.get("title") as string;
-    const details = formData.get("details") as string;
-    const priority = formData.get("priority") as string;
-    const file = formData.get("file") as File; // Get uploaded file
+    const title = formData.get("title");
+    const details = formData.get("details");
+    const priority = formData.get("priority") ;
+    const file = formData.get("file")  // Get uploaded file
 
     if (!title || !details || !file) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });

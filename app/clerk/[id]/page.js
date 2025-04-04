@@ -11,7 +11,7 @@ import PartyModal from "../../../components-clerk/PartyModal";
 import SuccessModal from "../../../components-clerk/Success/SuccessModal";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
-
+import CaseForm from "../../../components-clerk/CaseForm"
 const Clerk = () => {
    const {data:session} = useSession();
     console.log(session?.user?.id);
@@ -143,7 +143,7 @@ const Clerk = () => {
     console.log(res)
     const data  = await res.json();
     console.log(data);
-    setClerk([data])
+    setClerk(data)
   }
  useEffect(()=>{
    
@@ -191,8 +191,9 @@ console.log(cases)
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 ">
       <Navbar
+        clerk={clerk}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         showNotifications={showNotifications}
@@ -249,6 +250,8 @@ console.log(cases)
           setShowSuccessModal={setShowSuccessModal}
         />
       )}
+
+      <CaseForm />
     </div>
   );
 };

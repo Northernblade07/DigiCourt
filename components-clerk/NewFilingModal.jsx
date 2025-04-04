@@ -28,47 +28,44 @@ const NewFilingModal = ({ setShowNewFilingModal, setCases, cases }) => {
     additionalDocuments: null,
   });
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //this is the thing which i have changed
+  
     const newCase = {
-      id: `CIV-2025-${Math.floor(Math.random() * 1000)}`,
       title: newFilingForm.caseTitle,
       status: "Pending Filing",
       date: newFilingForm.filingDate,
       partyA: newFilingForm.partyA,
       partyB: newFilingForm.partyB,
       caseType: newFilingForm.caseType,
-      filingFee: newFilingForm.filingFee,
-      assignedJudge: newFilingForm.assignedJudge,
+      filingFee: newFilingForm.filingFee || 0, // Ensure it's not undefined
+      assignedJudge: newFilingForm.assignedJudge || "Unassigned",
       partyAContact: newFilingForm.partyAContact,
       partyBContact: newFilingForm.partyBContact,
       description: newFilingForm.description,
-      documents: uploadedFiles,
+      documents: uploadedFiles, // Ensure uploaded files are included
     };
-
-    setCases([...cases, newCase]);
-    setShowNewFilingModal(false);
-
+  
     try {
       const response = await fetch("/api/case", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newFilingForm),
+        body: JSON.stringify(newCase),
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        setCaseId(data._id); // Store case ID for document upload
-        setCases([...cases, data]); // Add new case to state
-      } else {
-        alert("Case submission failed.");
+  
+      if (!response.ok) {
+        throw new Error("Failed to submit case.");
       }
+  
+      const data = await response.json();
+      setCases([...cases, data]); // Use response data (including correct _id)
+      setShowNewFilingModal(false);
     } catch (error) {
       console.error("Error submitting case:", error);
+      alert("Case submission failed. Please try again.");
     }
   };
-
+  
   // const handleFileUpload = (event, type) => {
   //   const file = event.target.files[0];
   //   if (file && file.type === "application/pdf") {
@@ -81,31 +78,35 @@ const NewFilingModal = ({ setShowNewFilingModal, setCases, cases }) => {
   //this is which i have changed(document upload)
   const handleFileUpload = async (event, type) => {
     const file = event.target.files[0];
-    if (file && file.type === "application/pdf") {
-      const formData = new FormData();
-      formData.append("file", file);
+    if (!file || file.type !== "application/pdf") {
+      return alert("Only PDF files are allowed.");
+    }
   
-      try {
-        const response = await fetch("http://localhost:3000/api/cases/upload", {
-          method: "POST",
-          body: formData,
-        });
+    const formData = new FormData();
+    formData.append("file", file);
   
-        if (response.ok) {
-          const data = await response.json();
-          setUploadedFiles((prev) => ({ ...prev, [type]: data.filePath }));
-        } else {
-          alert("File upload failed. Try again.");
-        }
-      } catch (error) {
-        console.error("Error uploading file:", error);
-        alert("Error uploading file.");
-      }
-    } else {
-      alert("Only PDF files are allowed.");
+    try {
+      const response = await fetch("http://localhost:3000/api/cases/uploa9uuqd", {
+        method: "POST",
+        body: formData,
+      });
+  
+      if (!response.ok) throw new Error("File upload failed.");
+  
+      const data = await response.json();
+      setUploadedFiles((prev) => ({ ...prev, [type]: data.filePath }));
+  
+      // Update newFilingForm.documents to ensure uploaded file paths are stored
+      setNewFilingForm((prev) => ({
+        ...prev,
+        documents: [...prev.documents, { type, path: data.filePath }],
+      }));
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("Error uploading file.");
     }
   };
-
+  
   
   return (
     <div  onDoubleClick={() => setShowNewFilingModal(false)}  className="fixed inset-0 bg-slate-900/50  flex items-center justify-center z-50">
