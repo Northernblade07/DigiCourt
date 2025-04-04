@@ -58,11 +58,11 @@
     {
         "id": "CRM-2025-0305",
         "title": "State vs. ABC Logistics",
+        "details": "Multiple reports of unsafe working conditions leading to injuries.",
         "status": "Pending",
         "date": "2025-03-06",
         "summary": "Workplace safety violations and employee endangerment",
         "priority": "low",
-        "details": "Multiple reports of unsafe working conditions leading to injuries.",
         "recommendations": [
             "Audit safety procedures",
             "Interview affected employees",

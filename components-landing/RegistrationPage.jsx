@@ -650,16 +650,19 @@ const handleSubmitRegistration = async (e) => {
         autoClose: 5000,
       });
       return;
+    }else{
+
+
+      router.push("/"); // or based on userType
+      
+      toast.success("✅ Account created successfully!", {
+        position: "top-right",
+        autoClose: 4000,
+      });
+      
     }
-
-    toast.success("✅ Account created successfully!", {
-      position: "top-right",
-      autoClose: 4000,
-    });
-
     // Optional: reset fields or navigate
     // resetForm();
-    router.push("/"); // or based on userType
   } catch (error) {
     console.error(error);
     toast.error("❌ Failed to create account. Please try again later.", {
@@ -779,7 +782,7 @@ return (
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <button
                       className={`rounded-lg whitespace-nowrap p-4 flex flex-col items-center justify-center border-2 transition-all ${
-                        userType === "user"
+                        userType === "User"
                           ? "border-indigo-600 bg-indigo-50 text-indigo-700"
                           : "border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50"
                       }`}
@@ -804,7 +807,7 @@ return (
                     </button>
                     <button
                       className={`rounded-lg whitespace-nowrap p-4 flex flex-col items-center justify-center border-2 transition-all ${
-                        userType === "judge"
+                        userType === "Judge"
                           ? "border-indigo-600 bg-indigo-50 text-indigo-700"
                           : "border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50"
                       }`}

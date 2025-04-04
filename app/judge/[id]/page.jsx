@@ -5,19 +5,34 @@ import Navbar from "../../../components-judge/Navbar";
 import Sidebar from "../../../components-judge/Sidebar";
 import ActiveCases from "../../../components-judge/ActiveCases";
 import CaseDetails from "../../../components-judge/CaseDetails";
-import casesData from "../../../data-judges/cases.json";
+// import casesData from "../../../data-judges/cases.json";
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [caseComplexity, setCaseComplexity] = useState("Select");
   const [selectedCase, setSelectedCase] = useState(null);
-  const [cases] = useState(casesData);
+  const [cases,setCases] = useState([]);
   const caseCounts = {
     all: 25,
     urgent: 5,
     pending: 10,
     completed: 10,
   };
+
+  useEffect(() => {
+    const fetchCases = async () => {
+      try {
+        const res = await fetch("/api/cases");
+        const data = await res.json();
+        setCases(data); // because API returns array, not { success, data }
+      } catch (err) {
+        console.error("Failed to fetch cases:", err);
+      }
+    };
+  
+    fetchCases();
+  }, []); // 🔥 empty array to run once only
+  
 
   useEffect(() => {
     setSelectedCase(null);

@@ -9,7 +9,7 @@ import {
   faTimes
 } from '@fortawesome/free-solid-svg-icons';
 // import React from "react";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 // import { useNotification } from "../components/Notification";
@@ -44,7 +44,18 @@ const LoginModal = ({
       console.error("Login failed:", result?.error);
       router.push('/error'); // or show a toast instead
     } else {
-      // router.push("/clerk/1"); // or wherever you want
+      const session = await getSession();
+
+      const userId = session?.user?.id;
+      const role = session?.user?.role;
+  
+      if (!userId || !role) {
+        router.push("/error");
+        return;
+      }
+  
+      // Redirect to dynamic dashboard
+      router.push(`/${role.toLowerCase()}/${userId}`);
     }
   };
 
@@ -143,7 +154,7 @@ const LoginModal = ({
             </a>
           </div>
 
-        <div className="mt-8">
+        {/* <div className="mt-8"> */}
           <button type='submit'
             className="w-full !rounded-button whitespace-nowrap px-6 py-3 bg-indigo-600 text-white hover:bg-indigo-700 transform hover:scale-[1.02] transition-all duration-200 font-medium text-lg"
             // onClick={handleSubmitLogin}
@@ -151,7 +162,7 @@ const LoginModal = ({
             <FontAwesomeIcon icon={faSignInAlt} className="mr-2" />
             Sign In
           </button>
-        </div>
+        {/* </div> */}
             </form>
 
         <div className="mt-6 text-center text-sm text-gray-500">

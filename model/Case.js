@@ -16,13 +16,24 @@ const CaseSchema = new mongoose.Schema({
       email: { type: String },
       address: { type: String },
     },
-    reportedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", },
+    reportedBy: { type: mongoose.Schema.Types.ObjectId, ref: "Clerk", },
     status: { type: String, enum: ["Pending", "under review", "closed"], default: "pending" },
     priority: { type: String, enum: ["High","medium","Low"] },
     judgeId: { type: mongoose.Schema.Types.ObjectId, ref: "Judge", default: null },
     assignedJudge: { type: String },
     isApproved: { type: Boolean, default: false },
-    judgeFeedback: { type: String, default: "" },
+    judgement:{ 
+      decision: {
+        type:String, default: "" },
+        period:{
+          type:String , default :""},
+          penalty:{
+            type:String , default:""
+          },
+          reason:{
+            type:String,default:""
+          }
+      },
     evidence: [{ type: mongoose.Schema.Types.ObjectId, ref: "Evidence" }],
     documents: [
       {

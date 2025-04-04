@@ -12,9 +12,9 @@ const ActiveCases = ({ cases, caseComplexity, setSelectedCase, selectedCase }) =
 
           .map((caseItem) => (
             <div
-              key={caseItem.id}
+              key={caseItem._id}
               className={`p-4 rounded-lg border cursor-pointer transition-all ${
-                selectedCase?.id === caseItem.id ? "border-indigo-500 bg-indigo-50" : "border-gray-200 hover:border-indigo-300"
+                selectedCase?._id === caseItem._id ? "border-indigo-500 bg-indigo-50" : "border-gray-200 hover:border-indigo-300"
               }`}
               onClick={() => setSelectedCase(caseItem)}
             >

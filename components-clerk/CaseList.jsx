@@ -23,9 +23,8 @@ const CaseList = ({ cases, selectedCase, setSelectedCase,setShowNewFilingModal }
       </div>
 
       <div className="space-y-4">
-        {cases.map((caseItem) => (
-          <div
-            key={caseItem.id}
+        {cases.map((caseItem,i) => (
+          <div key={i}
             className={`p-4 rounded-lg border cursor-pointer transition-all ${
               selectedCase?.id === caseItem.id
                 ? "border-indigo-500 bg-indigo-50"

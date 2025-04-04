@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRobot } from "@fortawesome/free-solid-svg-icons";
 
 const JudgmentModal = ({ caseData, acceptedRecommendations, onClose }) => {
-  const [decision, setDecision] = useState("Select decision...");
-  const [sentencePeriod, setSentencePeriod] = useState("");
+  const [decision, setDecision] = useState("");
+  const [period, setSentencePeriod] = useState("");
   const [penalty, setPenalty] = useState("");
   const [reason, setReason] = useState("");
   const [airesponse,setResponse] = useState(""); 
@@ -22,11 +22,42 @@ const JudgmentModal = ({ caseData, acceptedRecommendations, onClose }) => {
     setReason(generateAIReasoning());
   };
 
+  const handleJudgementSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      console.log(caseData)
+      const res = await fetch(`/api/cases/${caseData._id}/judgement`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          decision,
+          period,
+          penalty,
+          reason,
+        }),
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok) {
+        console.log("Judgement updated:", data);
+        onClose();
+      } else {
+        console.error("Failed to update judgment:", data.error);
+      }
+    } catch (error) {
+      console.error("Error submitting judgment:", error);
+    }
+  };
+  
   const handleSubmit = () => {
     console.log({
       caseId: caseData.id,
       decision,
-      sentencePeriod,
+      period,
       penalty,
       reason,
     });
@@ -56,27 +87,28 @@ const JudgmentModal = ({ caseData, acceptedRecommendations, onClose }) => {
         </div>
 
         {/* Decision Dropdown */}
+       <form onSubmit={handleJudgementSubmit}>
         <label className="block mt-4 font-medium">Decision</label>
         <select
           value={decision}
           onChange={(e) => setDecision(e.target.value)}
           className="border rounded-lg px-4 py-2 w-full"
-        >
-          <option>Select decision...</option>
-          <option>Guilty</option>
-          <option>Not Guilty</option>
-          <option>Case Dismissed</option>
+          >
+          <option value={""}>Select decision...</option>
+          <option value={"Guilty"}>Guilty</option>
+          <option value={"Not Guilty"}>Not Guilty</option>
+          <option value={"Case Dismissed"}>Case Dismissed</option>
         </select>
 
         {/* Sentence Period */}
         <label className="block mt-4 font-medium">Sentence Period</label>
         <input
           type="text"
-          value={sentencePeriod}
+          value={period}
           onChange={(e) => setSentencePeriod(e.target.value)}
           className="border rounded-lg px-4 py-2 w-full"
           placeholder="e.g. 5 years, 6 months"
-        />
+          />
 
         {/* Penalties/Fine */}
         <label className="block mt-4 font-medium">Penalties/Fine</label>
@@ -86,7 +118,7 @@ const JudgmentModal = ({ caseData, acceptedRecommendations, onClose }) => {
           onChange={(e) => setPenalty(e.target.value)}
           className="border rounded-lg px-4 py-2 w-full"
           placeholder="e.g. ₹ 50000 fine"
-        />
+          />
 
         <label className="block mt-4 font-medium">Reason</label>
         <div className="relative">
@@ -95,45 +127,47 @@ const JudgmentModal = ({ caseData, acceptedRecommendations, onClose }) => {
             onChange={(e) => setReason(e.target.value)}
             className="border rounded-lg px-4 py-2 w-full h-24 pr-12"
             placeholder="Provide reasoning for the judgment"
-          ></textarea>
+            ></textarea>
 
           {/* AI Generate Button */}
 
           {/* <button
             onClick={() => setReason(generateAIReasoning())} // calling function
             className="absolute top-2 right-2 bg-indigo-500 text-white px-3 py-1 rounded-lg flex items-center gap-1 hover:bg-indigo-600"
-          >
+            >
             <FontAwesomeIcon icon={faRobot} className="mr-1" />
             <span className="text-sm"> Generate AI Reasoning</span>
-          </button>
-          </div> */}
+            </button>
+            </div> */}
 
 
 
           <button
             onClick={handleGenerateReasoning}
             className="absolute top-2 right-2 bg-indigo-500 text-white px-3 py-1 rounded-lg flex items-center gap-1 hover:bg-indigo-600"
-          >
+            >
             <FontAwesomeIcon icon={faRobot} className="mr-1" />
             <span className="text-sm"> Generate AI Reasoning</span>
           </button>
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-end mt-4 gap-2">
+        {/* <div className="flex justify-end mt-4 gap-2"> */}
           <button
             className="bg-gray-400 text-white px-3 py-1 rounded-lg"
             onClick={onClose}
-          >
-            <span className="text-sm">Cancle</span>
+            type="button"
+            >
+            <span className="text-sm">Cancel</span>
           </button>
           <button
             className="bg-indigo-600 text-white px-3 py-1 rounded-lg hover:bg-indigo-700"
-            onClick={handleSubmit}
-          >
+            type="submit"
+            >
             <span className="text-sm">Submit Judgment</span>
           </button>
-        </div>
+        {/* </div> */}
+            </form> 
       </div>
     </div>
   );

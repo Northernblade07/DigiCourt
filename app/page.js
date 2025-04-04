@@ -64,7 +64,7 @@ const HomePage = () => {
     const handleLogin = (type) => {
         dispatch({ type: 'SET_LOGIN_TYPE', payload: type });
         dispatch({ type: 'SHOW_LOGIN_MODAL' }); 
-        // setLoginType(type);
+        setType(type);
         // setShowLoginModal(true);
     };
 

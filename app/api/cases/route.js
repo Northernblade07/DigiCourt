@@ -5,6 +5,7 @@ import Evidence from "@/model/Evidence";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/user-auth";
 import { uploadFileToStorage } from "@/lib/fileupload";
+import Clerk from "@/model/Clerk";
 
 export const runtime = "nodejs";
 
@@ -31,10 +32,10 @@ export async function POST(req) {
     await connectDb();
 
     // Re-enable authentication if needed
-    // const session = await getServerSession({ req, ...authOptions });
-    // if (!session || session.user.role !== "clerk") {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-    // }
+    const session = await getServerSession({ req, ...authOptions });
+    if (!session || session.user.role !== "Clerk") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
 
     const formData = await req.formData();
 
@@ -54,7 +55,7 @@ export async function POST(req) {
       filingDate: formData.get("filingDate"),
       partyAContact: JSON.parse(formData.get("partyAContact")),
       partyBContact: JSON.parse(formData.get("partyBContact")),
-      reportedBy: null, // Remove or set a test value if session is disabled
+      reportedBy: session?.user?.id, // Remove or set a test value if session is disabled
       status: "Pending",
     };
 
@@ -89,6 +90,16 @@ export async function POST(req) {
     // Save documents in case
     newCase.documents = documents;
     await newCase.save();
+    
+    // Save clerk's ID in case (already done above)
+newCase.reportedBy = session.user.id;
+await newCase.save();
+
+// Update Clerk document to include this case
+await Clerk.findByIdAndUpdate(session.user.id, {
+  $push: { casesFiled: newCase._id },
+});
+
 
     return NextResponse.json(
       { message: "Case filed successfully", case: newCase },

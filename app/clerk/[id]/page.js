@@ -14,7 +14,7 @@ import { useParams } from "next/navigation";
 import CaseForm from "../../../components-clerk/CaseForm"
 const Clerk = () => {
    const {data:session} = useSession();
-    console.log(session?.user?.id);
+    console.log(session);
     const params = useParams();
     console.log(params)
   const [clerk, setClerk] = useState({})
@@ -149,8 +149,31 @@ const Clerk = () => {
    
 fetchData();
 
-console.log(cases)
-  },[params.id]);
+console.log(clerk)
+  },[]);
+
+
+  // const [cases, setCases] = useState([]);
+  // const clerkId = params.id;
+
+  useEffect(() => {
+    const fetchCases = async () => {
+      try {
+        const res = await fetch(`/api/cases/clerk/${params.id}`);
+        const json = await res.json();
+        
+        if (json.success) {
+          setCases(json.data);
+        }
+        // console.log(cases);
+      } catch (err) {
+        console.error("Failed to fetch cases:", err);
+      }
+    };
+
+    fetchCases();
+    console.log(cases)
+  }, [clerk,cases]);
 
   useEffect(() => {
     const chart = echarts.init(document.getElementById("caseChart"));
@@ -182,13 +205,31 @@ console.log(cases)
     });
   }, []);
 
-  const handleDeleteCase = (caseId) => {
-    const updatedCases = cases.filter((c) => c.id !== caseId);
-    setCases(updatedCases);
-    setSelectedCase(null);
-    setSuccessMessage("Case has been deleted successfully");
-    setShowSuccessModal(true);
+  const handleDeleteCase = async (caseId) => {
+    try {
+      const res = await fetch(`/api/cases/${caseId}`, {
+        method: "DELETE",
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok) {
+        const updatedCases = cases.filter((c) => c._id !== caseId); // or c.id if your frontend uses `id`
+        setCases(updatedCases);
+        setSelectedCase(null);
+        setSuccessMessage("Case has been deleted successfully");
+        setShowSuccessModal(true);
+      } else {
+        setSuccessMessage(data.error || "Failed to delete the case.");
+        setShowSuccessModal(true);
+      }
+    } catch (error) {
+      console.error("Error deleting case:", error);
+      setSuccessMessage("An error occurred while deleting the case.");
+      setShowSuccessModal(true);
+    }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-50 ">
@@ -229,14 +270,19 @@ console.log(cases)
       </div>
 
       {/* Modals */}
-      {showNewFilingModal && (
-        <NewFilingModal
-          setShowNewFilingModal={setShowNewFilingModal}
-          setCases={setCases}
-          cases={cases}
-        />
-      )}
+      {/* {showNewFilingModal && (
+        // <NewFilingModal
+        //   setShowNewFilingModal={setShowNewFilingModal}
+        //   setCases={setCases}
+        //   cases={cases}
+        // />
+      )} */}
 
+<CaseForm 
+setShowNewFilingModal={setShowNewFilingModal}
+  setCases={setCases}
+  cases={cases}
+/>
       {showPartyModal && (
         <PartyModal
           showPartyModal={showPartyModal}
@@ -251,7 +297,6 @@ console.log(cases)
         />
       )}
 
-      <CaseForm />
     </div>
   );
 };

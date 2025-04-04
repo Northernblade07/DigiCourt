@@ -34,13 +34,13 @@ const CaseDetails = ({ selectedCase, handleDeleteCase, setShowPartyModal }) => {
               </button>
 
               {/* Schedule Hearing Button */}
-              <button
+              {/* <button
                 className="rounded-lg whitespace-nowrap px-3 py-1.5 bg-blue-600 text-white hover:bg-blue-700 text-sm"
                 onClick={() => setShowScheduleHearing(true)} // Open the modal
               >
                 <FontAwesomeIcon icon={faCalendar} className="mr-1" />
                 Schedule Hearing
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -89,7 +89,7 @@ const CaseDetails = ({ selectedCase, handleDeleteCase, setShowPartyModal }) => {
                   {/* Smaller Delete Filing Button */}
                   <button
                     className="rounded-lg whitespace-nowrap px-3 py-1.5 bg-red-600 text-white hover:bg-red-700 text-sm"
-                    onClick={() => handleDeleteCase(selectedCase.id)}
+                    onClick={() => handleDeleteCase(selectedCase._id)}
                   >
                     <FontAwesomeIcon icon={faTrashAlt} className="mr-1" />
                     Delete Filing

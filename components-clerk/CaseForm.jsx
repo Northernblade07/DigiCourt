@@ -1,6 +1,7 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
-export default function FileCaseForm() {
+export default function FileCaseForm({setShowNewFilingModal,}) {
   const [formData, setFormData] = useState({
     title: "",
     caseType: "",
@@ -59,6 +60,22 @@ export default function FileCaseForm() {
 
 
   return (
+    <div>
+
+       <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-semibold">New Case Filing</h3>
+      
+                {/* cross button */}
+                <button
+                  className="text-gray-500 hover:text-gray-700"
+                  onClick={() => setShowNewFilingModal(false)}
+                >
+                  {/* <FontAwesomeIcon icon={faTimes} /> */}
+                </button>
+              </div>
+
+
+
     <form onSubmit={handleSubmit} className="p-6 bg-white shadow-md rounded-lg w-[1000px] left-0 absolute">
       <h2 className="text-xl font-bold mb-4">File a New Case</h2>
 
@@ -79,5 +96,6 @@ export default function FileCaseForm() {
 
       <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Submit Case</button>
     </form>
+    </div>
   );
 }

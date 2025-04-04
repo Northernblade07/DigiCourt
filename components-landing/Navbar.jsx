@@ -60,7 +60,7 @@ const Navbar = ({ activeSection, setActiveSection, handleLogin, scrollToSection 
                 className="rounded-[5px] px-4 py-2 border border-indigo-600 text-indigo-600 hover:bg-indigo-50 transition-all duration-200"
                 onClick={() => handleLogin("clerk")}
                 >
-                Registration as a Clerk
+                 Clerk login
               </button>
                 {/* </Link>  */}
              {/* <Link href={'/judge-signup'}> */}
@@ -68,16 +68,11 @@ const Navbar = ({ activeSection, setActiveSection, handleLogin, scrollToSection 
                 className="rounded-[5px] px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-200"
                 onClick={() => handleLogin("judge")}
                 >
-               Register as a Judge
+              Judge login
               </button>
                 {/* </Link> */}
 
-                <button
-                className="rounded-[5px] px-4 py-2 border border-indigo-600 text-indigo-600 hover:bg-indigo-50 transition-all duration-200"
-                // onClick={() => handleLogin("clerk")}
-                >
-                Clerk dashboard
-              </button>
+               
             </div>
           </div>
         </div>

@@ -7,7 +7,9 @@ const ClerkSchema = new mongoose.Schema({
     secretCode:{type:String, required:true},
     evidence: [{ type: mongoose.Schema.Types.ObjectId, ref: "Evidence" }],
     approvedCases:[{type:mongoose.Schema.Types.ObjectId,ref:"Case"}],
+    casesFiled: [{ type: mongoose.Schema.Types.ObjectId, ref: "Case" }],
     createdAt:{type:Date,default:Date.now()},
+    
 },{
     timestamps:true
 })
